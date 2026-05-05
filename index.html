@@ -126,11 +126,14 @@
         <li>
           <button onclick="initFromBookmarklet();">Init from Bookmarklet</button>
           <button onclick="formatCode();">Format</button>
+          <button onclick="runCode();">Run Code</button>
           <div id="format-error" class="error-box"></div>
         </li>
         <li>
           <button onclick="generateBookmarklet();">Generate Bookmarklet</button>
-          <button onclick="runCode();">Run Code</button>
+          <label><input type="checkbox" id="opt-remove-comments"> Remove comments</label>
+          <label><input type="checkbox" id="opt-compress"> Compress (<code>void 0</code>, <code>!0</code>, dead code)</label>
+          <label><input type="checkbox" id="opt-mangle"> Mangle (rename locals)</label>
           <div id="generate-error" class="error-box"></div>
         </li>
         <li>
@@ -161,8 +164,8 @@
       <h2>Examples:</h2>
 
       
-      <p>Sumbmit current URL to Reddit:</p>
-      <p><a href="javascript:(function()%7Bvar%20url%20%3D%20document.URL%20%3B%0Avar%20title%20%3D%20document.title%20%3B%0Awindow.location.href%20%3D%20%22https%3A%2F%2Fwww.reddit.com%2Fr%2F%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2B%20prompt(%22Subreddit%3A%20%22%2C%20%22%22)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2B%20%22%2Fsubmit%3Ftitle%3D%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2B%20title%20%2B%20%22%26url%3D%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2B%20url%20%3B%7D)()%3B">Sumbmit to Reddit</a></p>
+      <p>Submit current URL to Reddit:</p>
+      <p><a href="javascript:(function()%7Bvar%20url%20%3D%20document.URL%20%3B%0Avar%20title%20%3D%20document.title%20%3B%0Awindow.location.href%20%3D%20%22https%3A%2F%2Fwww.reddit.com%2Fr%2F%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2B%20prompt(%22Subreddit%3A%20%22%2C%20%22%22)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2B%20%22%2Fsubmit%3Ftitle%3D%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2B%20title%20%2B%20%22%26url%3D%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2B%20url%20%3B%7D)()%3B">Submit to Reddit</a></p>
       
       <pre>
 var url = document.URL ;

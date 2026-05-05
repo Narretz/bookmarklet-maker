@@ -2,12 +2,12 @@
 
       const iifeEnd = "})();";
 
-     async function cleanCode(code){
+     async function cleanCode(code, options){
        const trimmed = code.trim();
        const result = await Terser.minify(trimmed, {
-         compress: false,
-         mangle: false,
-         format: { comments: 'all' }
+         compress: options.compress,
+         mangle: options.mangle,
+         format: { comments: options.removeComments ? false : 'all' }
        });
        return result.code;
      }
@@ -43,7 +43,11 @@
        }
 
        try {
-         var cleaned = await cleanCode(code);
+         var cleaned = await cleanCode(code, {
+           removeComments: document.getElementById("opt-remove-comments").checked,
+           compress: document.getElementById("opt-compress").checked,
+           mangle: document.getElementById("opt-mangle").checked,
+         });
          var output = "javascript:" +  encodeURIComponent(iifeStart + cleaned + iifeEnd);
 
          link.text = title;
