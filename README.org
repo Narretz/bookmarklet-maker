@@ -1,17 +1,17 @@
 #+TITLE: Bookmarklet Maker 
-#+DESCROPTION: tool to create bookmarklets for browser automation.
-#+KEYWORKDS: browser, automation, tool, bookmarklet, javascript, js
+#+DESCRIPTION: tool to create bookmarklets for browser automation.
+#+KEYWORDS: browser, automation, tool, bookmarklet, javascript, js
 #+STARTUP: content 
 
 * Bookmarklet Maker
-** Overviiew 
+** Overview
 
 Bookmarklet maker is a small web app to create bookmarklet or small
-executable Javascript apps to peform browser aumtomation tasks. 
+executable Javascript apps to peform browser automation tasks.
 
 You can run this app by accessing the hyperlink: 
 
- - http://caiorss.github.io/bookmarklet-maker 
+ - http://narretz.github.io/bookmarklet-maker
 
 If you don't know what is a bookmarklet, see: 
 
@@ -101,13 +101,13 @@ window.location.href = "http://www.httpbin.org/get"
 **** Open url in a new tab
 
 #+BEGIN_SRC js 
-window.open("http://www.yandex.com")
+window.open("http://www.mdn.org")
 #+END_SRC
 
 **** URL manipulation 
 
 URL Manipulation is useful to send the current URL to some web service
-or Web App such as Google Driver or Web Archive. 
+or Web App such as Google Drive or Web Archive.
 
  - Open some page that doesn't exist anymore in Web Archive: 
 
@@ -117,31 +117,6 @@ var urlmod  = document.URL
 window.location.href = baseUrl + urlmod
 #+END_SRC
 
-
- - Open a file google Driver. 
-
-Example URL: https://drive.google.com/viewerng/viewer?url=lampwww.epfl.ch/~hmiller/scala2014/proceedings/p51-prokopec.pdf
-
-#+BEGIN_SRC js
-var baseUrl = "http://lampwww.epfl.ch/~hmiller/scala2014/proceedings/p51-prokopec.pdf"
-var urlmod = "https://drive.google.com/viewerng/viewer?url=" + baseUrl
-window.open(urlmod)
-#+END_SRC
-
-Open current page (PDF document in Google Driver).
-
-#+BEGIN_SRC js 
-window.open("https://drive.google.com/viewerng/viewer?url=" + document.URL);
-#+END_SRC
-
-Open a prompt showing Google driver URL to current document. Useful to
-create short URL in services like tiny URL and view document in
-Tablets or Smartphones. 
-
-
-#+BEGIN_SRC js 
-prompt("Google driver URL:", "https://drive.google.com/viewerng/viewer?url=" + document.URL);
-#+END_SRC
 *** Misc 
 **** Display alert box (Messagebox)
 
