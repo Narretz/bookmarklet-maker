@@ -2,36 +2,75 @@
 
       const iifeEnd = "})();";
 
-     function cleanCode(code){
-       return code.trim()
+     async function cleanCode(code){
+       const trimmed = code.trim();
+       const result = await Terser.minify(trimmed, {
+         compress: false,
+         mangle: false,
+         format: { comments: 'all' }
+       });
+       return result.code;
      }
-     
-     function generateBookmarklet (){
+
+     function showError(id, message) {
+       var box = document.getElementById(id);
+       box.textContent = message;
+       box.classList.add('error-box--visible');
+     }
+
+     function clearError(id) {
+       var box = document.getElementById(id);
+       box.textContent = '';
+       box.classList.remove('error-box--visible');
+     }
+
+     async function generateBookmarklet (){
        var title = document.getElementById("title-input").value ;
        var code  = document.getElementById("code-textarea").value;
        var link  = document.getElementById("bookmarklet-a");
        var codeOutput = document.getElementById("output-textarea");
        var htmlOutput  = document.getElementById("htmlOutput-textarea");
 
+       clearError('generate-error');
+
        if (!code) {
         link.classList.remove('bookmarklet--generated');
+
        codeOutput.value = '';
        htmlOutput.value = '';
 
         return;
        }
 
-       var output = "javascript:" +  encodeURIComponent(iifeStart + cleanCode(code) + iifeEnd);
-       
-       link.text = title;
-       link.href = output;
+       try {
+         var cleaned = await cleanCode(code);
+         var output = "javascript:" +  encodeURIComponent(iifeStart + cleaned + iifeEnd);
 
-       link.classList.add('bookmarklet--generated');
+         link.text = title;
+         link.href = output;
 
-       codeOutput.value = output;
+         link.classList.add('bookmarklet--generated');
 
-       htmlOutput.value = "<a href=\"" + output + "\">" + title + "</a>"
-       
+         codeOutput.value = output;
+
+         htmlOutput.value = "<a href=\"" + output + "\">" + title + "</a>"
+       } catch (err) {
+         showError('generate-error', err.message || String(err));
+       }
+     }
+
+     async function formatCode (){
+       var textarea = document.getElementById("code-textarea");
+       clearError('format-error');
+       try {
+         var formatted = await prettier.format(textarea.value, {
+           parser: "babel",
+           plugins: prettierPlugins
+         });
+         textarea.value = formatted;
+       } catch (err) {
+         showError('format-error', err.message || String(err));
+       }
      }
 
      function runCode (){
@@ -40,7 +79,9 @@
      }
 
      function initFromBookmarklet() {
-       var encoded  = document.getElementById("code-textarea").value;
+       var textarea = document.getElementById("code-textarea");
+
+       var encoded  = textarea.value;
 
        let decoded = decodeURIComponent(encoded.trim());
 
@@ -59,10 +100,13 @@
         decoded = decoded.slice(0, decoded.length - iifeEnd.length);
        }
 
-       document.getElementById("code-textarea").value = decoded;
+       textarea.value = decoded;
      }
 
      function clearCode(){
        document.getElementById("title-input").value = "bookmarklet";
-       document.getElementById("code-textarea").value = "";       
+       document.getElementById("code-textarea").value = "";
+
+       clearError('format-error');
+       clearError('generate-error');
      }

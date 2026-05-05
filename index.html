@@ -5,9 +5,8 @@
     <meta name="keywords" content="bookmarklet, hack, javascript, automate, browse, app"> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
     <meta name="description" content="Bookmarklet creator tool.">               
-    <meta name="author" content="Caio Rodrigues.">
+    <meta name="author" content="Caio Rodrigues, Martin Staffa">
     <style>
-     /* body {background-color: powderblue;} */
     html {
       background-color: white;
       width: 100%;
@@ -84,16 +83,36 @@
        padding: 10px 20px;
      }
 
-     
-     
+     .error-box {
+       display: none;
+       margin-top: 6px;
+       padding: 6px 10px;
+       border: 1px solid #c33;
+       background: #fdd;
+       color: #900;
+       font-family: monospace;
+       white-space: pre-wrap;
+       max-width: 725px;
+     }
+
+     .error-box.error-box--visible {
+       display: block;
+     }
+
+
+
     </style>
+    <script src="https://unpkg.com/prettier@3.3.3/standalone.js"></script>
+    <script src="https://unpkg.com/prettier@3.3.3/plugins/babel.js"></script>
+    <script src="https://unpkg.com/prettier@3.3.3/plugins/estree.js"></script>
+    <script src="https://unpkg.com/terser@5.31.6/dist/bundle.min.js"></script>
     <script src="bookmarklet.js"></script>
     
   </head>
   <body>
     <div id="top.div">
       <h1>Bookmarklet Maker</h1>
-      <a href="https://github.com/caiorss/bookmarklet-maker">Github Repository</a>
+      <a href="https://github.com/narretz/bookmarklet-maker">Github Repository</a>
     </div>
     
     <div id="main.div">
@@ -104,12 +123,15 @@
         </li>
         <li> <label>Code</label></li>
         <li> <textarea id="code-textarea">alert('hello world');</textarea> </li>
-        <li>          
+        <li>
           <button onclick="initFromBookmarklet();">Init from Bookmarklet</button>
+          <button onclick="formatCode();">Format</button>
+          <div id="format-error" class="error-box"></div>
         </li>
         <li>
           <button onclick="generateBookmarklet();">Generate Bookmarklet</button>
           <button onclick="runCode();">Run Code</button>
+          <div id="generate-error" class="error-box"></div>
         </li>
         <li>
           <button onclick="clearCode();">Clear</button>
